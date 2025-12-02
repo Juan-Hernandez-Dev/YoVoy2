@@ -3,8 +3,17 @@
 #include <string>
 #include <functional>
 #include <memory>
+#include <fstream>
 #include <conio.h>
 #include "utils/colors.h"
+#include "utils/fileUtils.h"
+#include "utils/inputUtils.h"
+#include "Graph.h"
+#include "HashTable.h"
+
+// Global instances
+Graph cityNetwork;
+HashTable vehicleRegistry;
 
 class Menu;
 
@@ -108,44 +117,120 @@ public:
 
 // ===== ROAD NETWORK MANAGEMENT =====
 void loadNetwork() {
-    std::cout << "Loading network from file...\n";
-    // TODO: Implement file loading logic
+    std::cout << "=== LOAD NETWORK ===\n\n";
+    std::string filename = getValidString("Enter filename (without extension): ");
+
+    std::string sanitized = sanitizeFilename(filename);
+    if (sanitized.empty()) {
+        std::cout << "Error: Invalid filename!\n";
+        return;
+    }
+
+    std::string fullPath = getDataPath(sanitized);
+    std::cout << "Loading from: " << fullPath << "\n\n";
+    cityNetwork.loadFromFile(fullPath);
 }
 
 void saveNetwork() {
-    std::cout << "Saving network to file...\n";
-    // TODO: Implement file saving logic
+    std::cout << "=== SAVE NETWORK ===\n\n";
+
+    if (cityNetwork.getNodeCount() == 0) {
+        std::cout << "Error: Network is empty! Nothing to save.\n";
+        return;
+    }
+
+    std::string filename = getValidString("Enter filename (without extension): ");
+
+    std::string sanitized = sanitizeFilename(filename);
+    if (sanitized.empty()) {
+        std::cout << "Error: Invalid filename!\n";
+        return;
+    }
+
+    std::string fullPath = getDataPath(sanitized);
+    std::cout << "Saving to: " << fullPath << "\n\n";
+    cityNetwork.saveToFile(fullPath);
 }
 
 void addNode() {
-    std::cout << "Adding node to network...\n";
-    // TODO: Implement add node logic
+    std::cout << "=== ADD NODE ===\n\n";
+    std::string name = getValidString("Enter node name: ");
+    cityNetwork.addNodeAuto(name);
 }
 
 void addEdge() {
-    std::cout << "Adding edge to network...\n";
-    // TODO: Implement add edge logic
+    std::cout << "=== ADD EDGE ===\n\n";
+
+    int sourceId = getValidInt("Enter source node ID: ");
+    int destId = getValidInt("Enter destination node ID: ");
+    double weight = getValidDouble("Enter weight (distance/time): ");
+
+    cityNetwork.addEdge(sourceId, destId, weight);
 }
 
 void removeNode() {
-    std::cout << "Removing node from network...\n";
-    // TODO: Implement remove node logic
+    std::cout << "=== REMOVE NODE ===\n\n";
+    int id = getValidInt("Enter node ID to remove: ");
+    cityNetwork.removeNode(id);
 }
 
 void removeEdge() {
-    std::cout << "Removing edge from network...\n";
-    // TODO: Implement remove edge logic
+    std::cout << "=== REMOVE EDGE ===\n\n";
+    int sourceId = getValidInt("Enter source node ID: ");
+    int destId = getValidInt("Enter destination node ID: ");
+    cityNetwork.removeEdge(sourceId, destId);
+}
+
+void generateSeedFile() {
+    std::cout << "=== GENERATE SEED FILE ===\n\n";
+    std::string filename = getValidString("Enter seed filename (without extension): ");
+
+    std::string sanitized = sanitizeFilename(filename);
+    if (sanitized.empty()) {
+        std::cout << "Error: Invalid filename!\n";
+        return;
+    }
+
+    std::string fullPath = getSeedPath(sanitized);
+    std::cout << "Generating seed file: " << fullPath << "\n\n";
+
+    std::ofstream file(fullPath);
+    if (!file.is_open()) {
+        std::cout << "Error: Could not create seed file!\n";
+        return;
+    }
+
+    file << "# SAMPLE NETWORK - Aguascalientes City\n";
+    file << "# NODES\n";
+    file << "N;0;UAA\n";
+    file << "N;1;Plaza_Patria\n";
+    file << "N;2;Centro_Historico\n";
+    file << "N;3;Glorieta_Norte\n";
+    file << "N;4;Estadio_Victoria\n";
+    file << "N;5;Expo_Plaza\n";
+    file << "\n# EDGES (source;destination;weight)\n";
+    file << "E;0;1;3.5\n";
+    file << "E;1;2;2.8\n";
+    file << "E;0;2;6.2\n";
+    file << "E;2;3;4.1\n";
+    file << "E;1;3;5.0\n";
+    file << "E;3;4;3.2\n";
+    file << "E;4;0;7.5\n";
+    file << "E;1;5;2.1\n";
+    file << "E;5;3;3.9\n";
+
+    file.close();
+    std::cout << "Seed file generated successfully!\n";
+    std::cout << "You can now load it using 'Load Network' option.\n";
 }
 
 // ===== NETWORK VISUALIZATION =====
 void showAdjacencyList() {
-    std::cout << "Displaying adjacency list...\n";
-    // TODO: Implement adjacency list display
+    cityNetwork.showAdjacencyList();
 }
 
 void showAdjacencyMatrix() {
-    std::cout << "Displaying adjacency matrix...\n";
-    // TODO: Implement adjacency matrix display
+    cityNetwork.showAdjacencyMatrix();
 }
 
 // ===== QUERIES AND ALGORITHMS =====
@@ -165,24 +250,82 @@ void depthFirstSearch() {
 }
 
 // ===== VEHICLE MANAGEMENT =====
+void loadVehicles() {
+    std::cout << "=== LOAD VEHICLES ===\n\n";
+    std::string filename = getValidString("Enter filename (without extension): ");
+
+    std::string sanitized = sanitizeFilename(filename);
+    if (sanitized.empty()) {
+        std::cout << "Error: Invalid filename!\n";
+        return;
+    }
+
+    std::string fullPath = getDataPath(sanitized);
+    std::cout << "Loading from: " << fullPath << "\n\n";
+    vehicleRegistry.loadFromFile(fullPath);
+}
+
+void saveVehicles() {
+    std::cout << "=== SAVE VEHICLES ===\n\n";
+
+    if (vehicleRegistry.getVehicleCount() == 0) {
+        std::cout << "Error: No vehicles to save!\n";
+        return;
+    }
+
+    std::string filename = getValidString("Enter filename (without extension): ");
+
+    std::string sanitized = sanitizeFilename(filename);
+    if (sanitized.empty()) {
+        std::cout << "Error: Invalid filename!\n";
+        return;
+    }
+
+    std::string fullPath = getDataPath(sanitized);
+    std::cout << "Saving to: " << fullPath << "\n\n";
+    vehicleRegistry.saveToFile(fullPath);
+}
+
 void addVehicle() {
-    std::cout << "Adding vehicle...\n";
-    // TODO: Implement add vehicle logic
+    std::cout << "=== ADD VEHICLE ===\n\n";
+
+    std::string plate = getValidString("Enter vehicle plate: ");
+    std::string type = getValidString("Enter vehicle type (Sedan/Truck/SUV/etc): ");
+    int origin = getValidInt("Enter origin node ID: ");
+    int dest = getValidInt("Enter destination node ID: ");
+
+    vehicleRegistry.addVehicleAuto(plate, type, origin, dest);
 }
 
 void searchVehicle() {
-    std::cout << "Searching for vehicle...\n";
-    // TODO: Implement search vehicle logic
+    std::cout << "=== SEARCH VEHICLE ===\n\n";
+    int id = getValidInt("Enter vehicle ID to search: ");
+
+    Vehicle* vehicle = vehicleRegistry.searchVehicle(id);
+    if (vehicle != nullptr) {
+        std::cout << "\nVehicle found!\n";
+        std::cout << "ID: " << vehicle->id << "\n";
+        std::cout << "Plate: " << vehicle->plate << "\n";
+        std::cout << "Type: " << vehicle->type << "\n";
+        std::cout << "Origin Node: " << vehicle->originNodeId << "\n";
+        std::cout << "Destination Node: " << vehicle->destinationNodeId << "\n";
+    } else {
+        std::cout << "Vehicle not found!\n";
+    }
 }
 
 void removeVehicle() {
-    std::cout << "Removing vehicle...\n";
-    // TODO: Implement remove vehicle logic
+    std::cout << "=== REMOVE VEHICLE ===\n\n";
+    int id = getValidInt("Enter vehicle ID to remove: ");
+    vehicleRegistry.removeVehicle(id);
+}
+
+void showAllVehicles() {
+    vehicleRegistry.showAllVehicles();
 }
 
 void showHashInfo() {
-    std::cout << "Displaying hash table information...\n";
-    // TODO: Implement hash info display
+    vehicleRegistry.showHashInfo();
 }
 
 // ===== EXIT =====
@@ -200,6 +343,7 @@ int main() {
     roadNetworkMenu->addItem(4, MenuItem("Add Edge", addEdge));
     roadNetworkMenu->addItem(5, MenuItem("Remove Node", removeNode));
     roadNetworkMenu->addItem(6, MenuItem("Remove Edge", removeEdge));
+    roadNetworkMenu->addItem(7, MenuItem("Generate Seed File", generateSeedFile));
 
     // 2. Network Visualization submenu
     auto visualizationMenu = std::make_shared<Menu>("Network Visualization");
@@ -214,10 +358,13 @@ int main() {
 
     // 4. Vehicle Management submenu
     auto vehicleMenu = std::make_shared<Menu>("Vehicle Management");
-    vehicleMenu->addItem(1, MenuItem("Add Vehicle", addVehicle));
-    vehicleMenu->addItem(2, MenuItem("Search Vehicle", searchVehicle));
-    vehicleMenu->addItem(3, MenuItem("Remove Vehicle", removeVehicle));
-    vehicleMenu->addItem(4, MenuItem("Show Hash Info", showHashInfo));
+    vehicleMenu->addItem(1, MenuItem("Load Vehicles", loadVehicles));
+    vehicleMenu->addItem(2, MenuItem("Save Vehicles", saveVehicles));
+    vehicleMenu->addItem(3, MenuItem("Add Vehicle", addVehicle));
+    vehicleMenu->addItem(4, MenuItem("Search Vehicle", searchVehicle));
+    vehicleMenu->addItem(5, MenuItem("Remove Vehicle", removeVehicle));
+    vehicleMenu->addItem(6, MenuItem("Show All Vehicles", showAllVehicles));
+    vehicleMenu->addItem(7, MenuItem("Show Hash Info", showHashInfo));
 
     // Main menu
     Menu mainMenu("Main menu");
