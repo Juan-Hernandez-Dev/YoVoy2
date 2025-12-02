@@ -152,6 +152,54 @@ main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\menu_app.dir\build.make CMakeFiles/menu_app.dir/main.cpp.s
 .PHONY : main.cpp.s
 
+src/Graph.obj: src/Graph.cpp.obj
+.PHONY : src/Graph.obj
+
+# target to build an object file
+src/Graph.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\menu_app.dir\build.make CMakeFiles/menu_app.dir/src/Graph.cpp.obj
+.PHONY : src/Graph.cpp.obj
+
+src/Graph.i: src/Graph.cpp.i
+.PHONY : src/Graph.i
+
+# target to preprocess a source file
+src/Graph.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\menu_app.dir\build.make CMakeFiles/menu_app.dir/src/Graph.cpp.i
+.PHONY : src/Graph.cpp.i
+
+src/Graph.s: src/Graph.cpp.s
+.PHONY : src/Graph.s
+
+# target to generate assembly for a file
+src/Graph.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\menu_app.dir\build.make CMakeFiles/menu_app.dir/src/Graph.cpp.s
+.PHONY : src/Graph.cpp.s
+
+src/HashTable.obj: src/HashTable.cpp.obj
+.PHONY : src/HashTable.obj
+
+# target to build an object file
+src/HashTable.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\menu_app.dir\build.make CMakeFiles/menu_app.dir/src/HashTable.cpp.obj
+.PHONY : src/HashTable.cpp.obj
+
+src/HashTable.i: src/HashTable.cpp.i
+.PHONY : src/HashTable.i
+
+# target to preprocess a source file
+src/HashTable.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\menu_app.dir\build.make CMakeFiles/menu_app.dir/src/HashTable.cpp.i
+.PHONY : src/HashTable.cpp.i
+
+src/HashTable.s: src/HashTable.cpp.s
+.PHONY : src/HashTable.s
+
+# target to generate assembly for a file
+src/HashTable.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\menu_app.dir\build.make CMakeFiles/menu_app.dir/src/HashTable.cpp.s
+.PHONY : src/HashTable.cpp.s
+
 # Help Target
 help:
 	@echo The following are some of the valid targets for this Makefile:
@@ -164,6 +212,12 @@ help:
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s
+	@echo ... src/Graph.obj
+	@echo ... src/Graph.i
+	@echo ... src/Graph.s
+	@echo ... src/HashTable.obj
+	@echo ... src/HashTable.i
+	@echo ... src/HashTable.s
 .PHONY : help
 
 

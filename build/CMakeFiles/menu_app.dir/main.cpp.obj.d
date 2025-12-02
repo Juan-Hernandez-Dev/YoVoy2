@@ -194,6 +194,23 @@ CMakeFiles/menu_app.dir/main.cpp.obj: \
  C:/mingw64/include/c++/15.1.0/bits/ranges_algobase.h \
  C:/mingw64/include/c++/15.1.0/pstl/glue_memory_defs.h \
  C:/mingw64/include/c++/15.1.0/pstl/execution_defs.h \
+ C:/mingw64/include/c++/15.1.0/fstream \
+ C:/mingw64/include/c++/15.1.0/bits/codecvt.h \
+ C:/mingw64/include/c++/15.1.0/x86_64-w64-mingw32/bits/basic_file.h \
+ C:/mingw64/include/c++/15.1.0/x86_64-w64-mingw32/bits/c++io.h \
+ C:/mingw64/include/c++/15.1.0/bits/fstream.tcc \
  C:/mingw64/x86_64-w64-mingw32/include/conio.h \
  C:/mingw64/x86_64-w64-mingw32/include/sec_api/conio_s.h \
- C:\Users\juanh\Dev\Projects\YoVoy2\utils/colors.h
+ C:\Users\juanh\Dev\Projects\YoVoy2\utils/colors.h \
+ C:\Users\juanh\Dev\Projects\YoVoy2\utils/fileUtils.h \
+ C:/mingw64/include/c++/15.1.0/algorithm \
+ C:/mingw64/include/c++/15.1.0/bits/stl_algo.h \
+ C:/mingw64/include/c++/15.1.0/bits/algorithmfwd.h \
+ C:/mingw64/include/c++/15.1.0/bits/stl_heap.h \
+ C:/mingw64/include/c++/15.1.0/bits/uniform_int_dist.h \
+ C:/mingw64/include/c++/15.1.0/bits/ranges_algo.h \
+ C:/mingw64/include/c++/15.1.0/pstl/glue_algorithm_defs.h \
+ C:\Users\juanh\Dev\Projects\YoVoy2\utils/inputUtils.h \
+ C:/mingw64/include/c++/15.1.0/limits \
+ C:/Users/juanh/Dev/Projects/YoVoy2/src/Graph.h \
+ C:/Users/juanh/Dev/Projects/YoVoy2/src/HashTable.h
