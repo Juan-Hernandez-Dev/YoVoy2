@@ -11,13 +11,23 @@ struct Vehicle {
     int id;
     std::string plate;
     std::string type;
-    int originNodeId;
+    int currentNodeId;
     int destinationNodeId;
     bool active;
 
-    Vehicle() : id(-1), plate(""), type(""), originNodeId(-1), destinationNodeId(-1), active(false) {}
-    Vehicle(int i, const std::string& p, const std::string& t, int o, int d)
-        : id(i), plate(p), type(t), originNodeId(o), destinationNodeId(d), active(true) {}
+    Vehicle() : id(-1), plate(""), type(""), currentNodeId(-1), destinationNodeId(-1), active(false) {}
+    Vehicle(int i, const std::string& p, const std::string& t, int curr, int dest)
+        : id(i), plate(p), type(t), currentNodeId(curr), destinationNodeId(dest), active(true) {}
+};
+
+struct Movement {
+    int vehicleId;
+    int destinationNodeId;
+    std::string status; // "pending", "success", "failed"
+    double travelTimeMinutes;
+    std::string failReason;
+
+    Movement() : vehicleId(-1), destinationNodeId(-1), status("pending"), travelTimeMinutes(0.0), failReason("") {}
 };
 
 class HashTable {
@@ -51,10 +61,17 @@ public:
     void showAllVehicles();
     void showHashInfo();
 
+    // Movement tracking
+    void logMovement(int vehicleId, int destNodeId, const std::string& status,
+                    double travelTime, const std::string& failReason = "");
+    void showMovementHistory();
+
     // Getters
     int getVehicleCount() const { return vehicleCount; }
     int getNextId() const { return nextId; }
     std::string getCurrentFile() const { return currentFile; }
+    const Vehicle* getVehicles() const { return table; }
+    int getHashSize() const { return HASH_SIZE; }
 };
 
 #endif

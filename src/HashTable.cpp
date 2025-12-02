@@ -54,7 +54,7 @@ void HashTable::autoSave() {
         for (int i = 0; i < HASH_SIZE; i++) {
             if (table[i].active) {
                 file << "V;" << table[i].id << ";" << table[i].plate << ";"
-                     << table[i].type << ";" << table[i].originNodeId << ";"
+                     << table[i].type << ";" << table[i].currentNodeId << ";"
                      << table[i].destinationNodeId << "\n";
             }
         }
@@ -240,7 +240,7 @@ bool HashTable::saveToFile(const std::string& filename) {
     for (int i = 0; i < HASH_SIZE; i++) {
         if (table[i].active) {
             file << "V;" << table[i].id << ";" << table[i].plate << ";"
-                 << table[i].type << ";" << table[i].originNodeId << ";"
+                 << table[i].type << ";" << table[i].currentNodeId << ";"
                  << table[i].destinationNodeId << "\n";
         }
     }
@@ -278,7 +278,7 @@ void HashTable::showAllVehicles() {
             std::cout << std::setw(5) << table[i].id << " | "
                       << std::setw(12) << table[i].plate << " | "
                       << std::setw(15) << table[i].type << " | "
-                      << std::setw(8) << table[i].originNodeId << " | "
+                      << std::setw(8) << table[i].currentNodeId << " | "
                       << std::setw(8) << table[i].destinationNodeId << "\n";
         }
     }
@@ -307,5 +307,57 @@ void HashTable::showHashInfo() {
         }
     }
     std::cout << "Used Slots: " << usedSlots << "\n";
+    std::cout << "\n";
+}
+
+void HashTable::logMovement(int vehicleId, int destNodeId, const std::string& status,
+                           double travelTime, const std::string& failReason) {
+    std::ofstream file("data/.movements.csv", std::ios::app);
+    if (!file.is_open()) {
+        return;
+    }
+
+    file << vehicleId << ";" << destNodeId << ";" << status << ";"
+         << travelTime << ";" << failReason << "\n";
+
+    file.close();
+}
+
+void HashTable::showMovementHistory() {
+    std::ifstream file("data/.movements.csv");
+    if (!file.is_open()) {
+        std::cout << "No movement history found.\n";
+        return;
+    }
+
+    std::cout << "\n===== MOVEMENT HISTORY =====\n\n";
+    std::cout << std::setw(10) << "Vehicle ID" << " | "
+              << std::setw(12) << "Destination" << " | "
+              << std::setw(10) << "Status" << " | "
+              << std::setw(12) << "Time (min)" << " | "
+              << "Reason\n";
+    std::cout << std::string(70, '-') << "\n";
+
+    std::string line;
+    while (std::getline(file, line)) {
+        if (line.empty()) continue;
+
+        std::stringstream ss(line);
+        std::string vidStr, destStr, status, timeStr, reason;
+
+        std::getline(ss, vidStr, ';');
+        std::getline(ss, destStr, ';');
+        std::getline(ss, status, ';');
+        std::getline(ss, timeStr, ';');
+        std::getline(ss, reason);
+
+        std::cout << std::setw(10) << vidStr << " | "
+                  << std::setw(12) << destStr << " | "
+                  << std::setw(10) << status << " | "
+                  << std::setw(12) << timeStr << " | "
+                  << reason << "\n";
+    }
+
+    file.close();
     std::cout << "\n";
 }
