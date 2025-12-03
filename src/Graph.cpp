@@ -1,4 +1,5 @@
 #include "Graph.h"
+#include "utils/colors.h"
 #include <iomanip>
 #include <sstream>
 
@@ -367,7 +368,7 @@ void Graph::showAdjacencyList() {
         return;
     }
 
-    std::cout << "\n===== ADJACENCY LIST =====\n\n";
+    std::cout << "\n" << BOLD << "Adjacency list" << RESET << "\n";
     for (int i = 0; i < MAX_NODES; i++) {
         if (nodes[i].active) {
             std::cout << "[" << nodes[i].id << "] " << nodes[i].name << " -> ";
@@ -397,7 +398,7 @@ void Graph::showAdjacencyMatrix() {
         return;
     }
 
-    std::cout << "\n===== ADJACENCY MATRIX =====\n\n";
+    std::cout << "\n" << BOLD << "Adjacency matrix" << RESET << "\n";
 
     // Header
     std::cout << std::setw(6) << " ";
@@ -438,14 +439,20 @@ void Graph::showAdjacencyMatrix() {
     std::cout << "\n";
 }
 
-bool Graph::nodeExists(int id) {
-    return findNodeIndex(id) != -1;
+bool Graph::nodeExists(int id) const {
+    for (int i = 0; i < MAX_NODES; i++) {
+        if (nodes[i].active && nodes[i].id == id) {
+            return true;
+        }
+    }
+    return false;
 }
 
-std::string Graph::getNodeName(int id) {
-    int index = findNodeIndex(id);
-    if (index != -1) {
-        return nodes[index].name;
+std::string Graph::getNodeName(int id) const {
+    for (int i = 0; i < MAX_NODES; i++) {
+        if (nodes[i].active && nodes[i].id == id) {
+            return nodes[i].name;
+        }
     }
     return "";
 }

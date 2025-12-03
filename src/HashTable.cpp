@@ -1,4 +1,5 @@
 #include "HashTable.h"
+#include "utils/colors.h"
 #include <iomanip>
 #include <sstream>
 
@@ -265,7 +266,7 @@ void HashTable::showAllVehicles() {
         return;
     }
 
-    std::cout << "\n===== REGISTERED VEHICLES =====\n\n";
+    std::cout << "\n" << BOLD << "Registered vehicles" << RESET << "\n";
     std::cout << std::setw(5) << "ID" << " | "
               << std::setw(12) << "Plate" << " | "
               << std::setw(15) << "Type" << " | "
@@ -286,7 +287,7 @@ void HashTable::showAllVehicles() {
 }
 
 void HashTable::showHashInfo() {
-    std::cout << "\n===== HASH TABLE INFORMATION =====\n\n";
+    std::cout << "\n" << BOLD << "Hash table information" << RESET << "\n";
     std::cout << "Table Size: " << HASH_SIZE << "\n";
     std::cout << "Vehicles Stored: " << vehicleCount << "\n";
     std::cout << "Load Factor: " << std::fixed << std::setprecision(2)
@@ -330,7 +331,7 @@ void HashTable::showMovementHistory() {
         return;
     }
 
-    std::cout << "\n===== MOVEMENT HISTORY =====\n\n";
+    std::cout << "\n" << BOLD << "Movement history" << RESET << "\n";
     std::cout << std::setw(10) << "Vehicle ID" << " | "
               << std::setw(12) << "Destination" << " | "
               << std::setw(10) << "Status" << " | "

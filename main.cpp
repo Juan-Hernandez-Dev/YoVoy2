@@ -12,6 +12,7 @@
 #include "utils/tableUtils.h"
 #include "Graph.h"
 #include "HashTable.h"
+#include "Algorithms.h"
 
 // Global instances
 Graph cityNetwork;
@@ -119,7 +120,7 @@ public:
 
 // ===== ROAD NETWORK MANAGEMENT =====
 void loadNetwork() {
-    std::cout << "=== LOAD NETWORK ===\n\n";
+    std::cout << BOLD << "Load network" << RESET << "\n";
     std::string filename = getValidString("Enter filename (without extension): ");
 
     std::string sanitized = sanitizeFilename(filename);
@@ -134,7 +135,7 @@ void loadNetwork() {
 }
 
 void saveNetwork() {
-    std::cout << "=== SAVE NETWORK ===\n\n";
+    std::cout << BOLD << "Save network" << RESET << "\n";
 
     if (cityNetwork.getNodeCount() == 0) {
         std::cout << "Error: Network is empty! Nothing to save.\n";
@@ -155,13 +156,13 @@ void saveNetwork() {
 }
 
 void addNode() {
-    std::cout << "=== ADD NODE ===\n\n";
+    std::cout << BOLD << "Add node" << RESET << "\n";
     std::string name = getValidString("Enter node name: ");
     cityNetwork.addNodeAuto(name);
 }
 
 void addEdge() {
-    std::cout << "=== ADD EDGE ===\n\n";
+    std::cout << BOLD << "Add edge" << RESET << "\n";
 
     if (cityNetwork.getNodeCount() == 0) {
         std::cout << "Error: No nodes in network! Add nodes first.\n";
@@ -215,7 +216,7 @@ void addEdge() {
     // Check for self-loop
     if (sourceId == destId) {
         system("cls");
-        std::cout << "=== ADD EDGE ===\n\n";
+        std::cout << BOLD << "Add edge" << RESET << "\n";
         std::cout << "Error: Cannot create an edge from a node to itself!\n";
         std::cout << "Self-loops are not allowed in road networks.\n";
         return;
@@ -228,7 +229,7 @@ void addEdge() {
 
     while (true) {
         system("cls");
-        std::cout << "=== CONFIRM EDGE DIRECTION ===\n\n";
+        std::cout << BOLD << "Confirm edge direction" << RESET << "\n";
 
         std::string sourceRole, destRole;
 
@@ -284,7 +285,7 @@ void addEdge() {
 
     // Keep the table visible and ask for weight
     system("cls");
-    std::cout << "=== ADD EDGE ===\n\n";
+    std::cout << BOLD << "Add edge" << RESET << "\n";
 
     std::string sourceRole, destRole;
     if (directionChoice == 0) {
@@ -329,13 +330,13 @@ void addEdge() {
 }
 
 void removeNode() {
-    std::cout << "=== REMOVE NODE ===\n\n";
+    std::cout << BOLD << "Remove node" << RESET << "\n";
     int id = getValidInt("Enter node ID to remove: ");
     cityNetwork.removeNode(id);
 }
 
 void removeEdge() {
-    std::cout << "=== REMOVE EDGE ===\n\n";
+    std::cout << BOLD << "Remove edge" << RESET << "\n";
 
     if (cityNetwork.getNodeCount() == 0) {
         std::cout << "Error: No nodes in network!\n";
@@ -386,7 +387,7 @@ void removeEdge() {
     }
 
     system("cls");
-    std::cout << "=== REMOVE EDGE ===\n\n";
+    std::cout << BOLD << "Remove edge" << RESET << "\n";
 
     // Display selected nodes in cyan table
     std::cout << CYAN;
@@ -415,7 +416,7 @@ void removeEdge() {
 }
 
 void generateSeedFile() {
-    std::cout << "=== GENERATE SEED FILE ===\n\n";
+    std::cout << BOLD << "Generate seed file" << RESET << "\n";
     std::string filename = getValidString("Enter seed filename (without extension): ");
 
     std::string sanitized = sanitizeFilename(filename);
@@ -457,6 +458,31 @@ void generateSeedFile() {
     std::cout << "You can now load it using 'Load Network' option.\n";
 }
 
+void generateVehicleSeedFile() {
+    std::cout << BOLD << "Generate vehicle seed file" << RESET << "\n";
+
+    std::string fullPath = getSeedPath("vehicles");
+    std::cout << "Generating vehicle seed file: " << fullPath << "\n\n";
+
+    std::ofstream file(fullPath);
+    if (!file.is_open()) {
+        std::cout << "Error: Could not create seed file!\n";
+        return;
+    }
+
+    file << "# SAMPLE VEHICLES\n";
+    file << "# Format: V;id;plate;type;currentNodeId;destinationNodeId\n";
+    file << "V;0;ABC-123-X;Sedan;0;-1\n";
+    file << "V;1;XYZ-999-Y;Truck;1;-1\n";
+    file << "V;2;DEF-456-Z;Compact;2;-1\n";
+    file << "V;3;GHI-789-A;Sedan;3;-1\n";
+    file << "V;4;JKL-012-B;Truck;4;-1\n";
+
+    file.close();
+    std::cout << "Vehicle seed file generated successfully!\n";
+    std::cout << "You can now load it using 'Load Vehicles' option.\n";
+}
+
 // ===== NETWORK VISUALIZATION =====
 void showAdjacencyList() {
     cityNetwork.showAdjacencyList();
@@ -468,23 +494,140 @@ void showAdjacencyMatrix() {
 
 // ===== QUERIES AND ALGORITHMS =====
 void findShortestPath() {
-    std::cout << "Finding shortest path (Dijkstra)...\n";
-    // TODO: Implement Dijkstra's algorithm
+    std::cout << BOLD << "Find shortest path" << RESET << "\n";
+
+    if (cityNetwork.getNodeCount() < 2) {
+        std::cout << "Error: Need at least 2 nodes in the network!\n";
+        return;
+    }
+
+    // Select source node
+    InteractivePaginatedTable sourceTable("SELECT SOURCE NODE", "Name", "Connections");
+    const Node* nodes = cityNetwork.getNodes();
+
+    for (int i = 0; i < cityNetwork.getMaxNodes(); i++) {
+        if (nodes[i].active) {
+            int connCount = 0;
+            Edge* edge = nodes[i].adjacencyList;
+            while (edge != nullptr) {
+                connCount++;
+                edge = edge->next;
+            }
+            sourceTable.addRow(nodes[i].id, nodes[i].name, std::to_string(connCount) + " edges");
+        }
+    }
+
+    int sourceId = sourceTable.run();
+    if (sourceId == -1) {
+        std::cout << "Operation cancelled.\n";
+        return;
+    }
+
+    // Select destination node
+    InteractivePaginatedTable destTable("SELECT DESTINATION NODE", "Name", "Connections");
+
+    for (int i = 0; i < cityNetwork.getMaxNodes(); i++) {
+        if (nodes[i].active) {
+            int connCount = 0;
+            Edge* edge = nodes[i].adjacencyList;
+            while (edge != nullptr) {
+                connCount++;
+                edge = edge->next;
+            }
+            destTable.addRow(nodes[i].id, nodes[i].name, std::to_string(connCount) + " edges");
+        }
+    }
+
+    int destId = destTable.run();
+    if (destId == -1) {
+        std::cout << "Operation cancelled.\n";
+        return;
+    }
+
+    if (sourceId == destId) {
+        system("cls");
+        std::cout << "Error: Source and destination cannot be the same!\n";
+        return;
+    }
+
+    // Run Dijkstra with visualization
+    PathResult result = dijkstra(cityNetwork, sourceId, destId, true);
+    displayPath(cityNetwork, result);
 }
 
 void breadthFirstSearch() {
-    std::cout << "Performing Breadth-First Search...\n";
-    // TODO: Implement BFS
+    std::cout << BOLD << "Breadth-first search" << RESET << "\n";
+
+    if (cityNetwork.getNodeCount() == 0) {
+        std::cout << "Error: Network is empty!\n";
+        return;
+    }
+
+    // Select starting node
+    InteractivePaginatedTable startTable("SELECT START NODE", "Name", "Connections");
+    const Node* nodes = cityNetwork.getNodes();
+
+    for (int i = 0; i < cityNetwork.getMaxNodes(); i++) {
+        if (nodes[i].active) {
+            int connCount = 0;
+            Edge* edge = nodes[i].adjacencyList;
+            while (edge != nullptr) {
+                connCount++;
+                edge = edge->next;
+            }
+            startTable.addRow(nodes[i].id, nodes[i].name, std::to_string(connCount) + " edges");
+        }
+    }
+
+    int startId = startTable.run();
+    if (startId == -1) {
+        std::cout << "Operation cancelled.\n";
+        return;
+    }
+
+    // Run BFS with visualization
+    TraversalResult result = bfs(cityNetwork, startId, true);
+    displayTraversal(cityNetwork, result, "BREADTH-FIRST SEARCH");
 }
 
 void depthFirstSearch() {
-    std::cout << "Performing Depth-First Search...\n";
-    // TODO: Implement DFS
+    std::cout << BOLD << "Depth-first search" << RESET << "\n";
+
+    if (cityNetwork.getNodeCount() == 0) {
+        std::cout << "Error: Network is empty!\n";
+        return;
+    }
+
+    // Select starting node
+    InteractivePaginatedTable startTable("SELECT START NODE", "Name", "Connections");
+    const Node* nodes = cityNetwork.getNodes();
+
+    for (int i = 0; i < cityNetwork.getMaxNodes(); i++) {
+        if (nodes[i].active) {
+            int connCount = 0;
+            Edge* edge = nodes[i].adjacencyList;
+            while (edge != nullptr) {
+                connCount++;
+                edge = edge->next;
+            }
+            startTable.addRow(nodes[i].id, nodes[i].name, std::to_string(connCount) + " edges");
+        }
+    }
+
+    int startId = startTable.run();
+    if (startId == -1) {
+        std::cout << "Operation cancelled.\n";
+        return;
+    }
+
+    // Run DFS with visualization
+    TraversalResult result = dfs(cityNetwork, startId, true);
+    displayTraversal(cityNetwork, result, "DEPTH-FIRST SEARCH");
 }
 
 // ===== VEHICLE MANAGEMENT =====
 void loadVehicles() {
-    std::cout << "=== LOAD VEHICLES ===\n\n";
+    std::cout << BOLD << "Load vehicles" << RESET << "\n";
     std::string filename = getValidString("Enter filename (without extension): ");
 
     std::string sanitized = sanitizeFilename(filename);
@@ -499,7 +642,7 @@ void loadVehicles() {
 }
 
 void saveVehicles() {
-    std::cout << "=== SAVE VEHICLES ===\n\n";
+    std::cout << BOLD << "Save vehicles" << RESET << "\n";
 
     if (vehicleRegistry.getVehicleCount() == 0) {
         std::cout << "Error: No vehicles to save!\n";
@@ -520,18 +663,85 @@ void saveVehicles() {
 }
 
 void addVehicle() {
-    std::cout << "=== ADD VEHICLE ===\n\n";
+    std::cout << BOLD << "Add vehicle" << RESET << "\n";
+
+    if (cityNetwork.getNodeCount() == 0) {
+        std::cout << "Error: No nodes in network! Add nodes first.\n";
+        return;
+    }
 
     std::string plate = getValidString("Enter vehicle plate: ");
-    std::string type = getValidString("Enter vehicle type (Sedan/Truck/SUV/etc): ");
-    int origin = getValidInt("Enter origin node ID: ");
-    int dest = getValidInt("Enter destination node ID: ");
 
-    vehicleRegistry.addVehicleAuto(plate, type, origin, dest);
+    // Vehicle type selector with arrows
+    int typeChoice = 0;
+    std::string types[] = {"Sedan", "Compact", "Truck"};
+
+    while (true) {
+        system("cls");
+        std::cout << BOLD << "Select vehicle type" << RESET << "\n";
+        std::cout << "Plate: " << plate << "\n\n";
+
+        for (int i = 0; i < 3; i++) {
+            if (i == typeChoice) {
+                std::cout << CYAN << "> " << types[i] << RESET << "\n";
+            } else {
+                std::cout << "  " << types[i] << "\n";
+            }
+        }
+
+        std::cout << "\n[W/S or Up/Down] Navigate | [Enter] Confirm | [ESC] Cancel\n";
+
+        int ch = _getch();
+
+        if (ch == 224 || ch == 0) {
+            ch = _getch();
+            if (ch == 72 || ch == 'H') { // Up
+                typeChoice = (typeChoice - 1 + 3) % 3;
+            } else if (ch == 80 || ch == 'P') { // Down
+                typeChoice = (typeChoice + 1) % 3;
+            }
+        } else if (ch == 'w' || ch == 'W') {
+            typeChoice = (typeChoice - 1 + 3) % 3;
+        } else if (ch == 's' || ch == 'S') {
+            typeChoice = (typeChoice + 1) % 3;
+        } else if (ch == 13) { // Enter
+            break;
+        } else if (ch == 27) { // ESC
+            std::cout << "Operation cancelled.\n";
+            return;
+        }
+    }
+
+    std::string selectedType = types[typeChoice];
+
+    // Select current location
+    InteractivePaginatedTable locationTable("SELECT CURRENT LOCATION", "Name", "Connections");
+    const Node* nodes = cityNetwork.getNodes();
+
+    for (int i = 0; i < cityNetwork.getMaxNodes(); i++) {
+        if (nodes[i].active) {
+            int connCount = 0;
+            Edge* edge = nodes[i].adjacencyList;
+            while (edge != nullptr) {
+                connCount++;
+                edge = edge->next;
+            }
+            locationTable.addRow(nodes[i].id, nodes[i].name, std::to_string(connCount) + " edges");
+        }
+    }
+
+    int currentLocation = locationTable.run();
+    if (currentLocation == -1) {
+        std::cout << "Operation cancelled.\n";
+        return;
+    }
+
+    // Add vehicle with no destination initially (-1)
+    vehicleRegistry.addVehicleAuto(plate, selectedType, currentLocation, -1);
 }
 
 void searchVehicle() {
-    std::cout << "=== SEARCH VEHICLE ===\n\n";
+    std::cout << BOLD << "Search vehicle" << RESET << "\n";
     int id = getValidInt("Enter vehicle ID to search: ");
 
     Vehicle* vehicle = vehicleRegistry.searchVehicle(id);
@@ -540,7 +750,7 @@ void searchVehicle() {
         std::cout << "ID: " << vehicle->id << "\n";
         std::cout << "Plate: " << vehicle->plate << "\n";
         std::cout << "Type: " << vehicle->type << "\n";
-        std::cout << "Origin Node: " << vehicle->originNodeId << "\n";
+        std::cout << "Current Node: " << vehicle->currentNodeId << "\n";
         std::cout << "Destination Node: " << vehicle->destinationNodeId << "\n";
     } else {
         std::cout << "Vehicle not found!\n";
@@ -548,7 +758,7 @@ void searchVehicle() {
 }
 
 void removeVehicle() {
-    std::cout << "=== REMOVE VEHICLE ===\n\n";
+    std::cout << BOLD << "Remove vehicle" << RESET << "\n";
     int id = getValidInt("Enter vehicle ID to remove: ");
     vehicleRegistry.removeVehicle(id);
 }
@@ -559,6 +769,99 @@ void showAllVehicles() {
 
 void showHashInfo() {
     vehicleRegistry.showHashInfo();
+}
+
+void moveVehicle() {
+    std::cout << BOLD << "Move vehicle" << RESET << "\n";
+
+    if (vehicleRegistry.getVehicleCount() == 0) {
+        std::cout << "Error: No vehicles registered!\n";
+        return;
+    }
+
+    if (cityNetwork.getNodeCount() < 2) {
+        std::cout << "Error: Need at least 2 nodes in network!\n";
+        return;
+    }
+
+    // Select vehicle
+    InteractivePaginatedTable vehicleTable("SELECT VEHICLE TO MOVE", "Plate", "Type", "Location");
+    const Vehicle* vehicles = vehicleRegistry.getVehicles();
+
+    for (int i = 0; i < vehicleRegistry.getHashSize(); i++) {
+        if (vehicles[i].active) {
+            std::string location = cityNetwork.nodeExists(vehicles[i].currentNodeId)
+                ? cityNetwork.getNodeName(vehicles[i].currentNodeId)
+                : "Unknown";
+            vehicleTable.addRow(vehicles[i].id, vehicles[i].plate, vehicles[i].type, location);
+        }
+    }
+
+    int vehicleId = vehicleTable.run();
+    if (vehicleId == -1) {
+        std::cout << "Operation cancelled.\n";
+        return;
+    }
+
+    Vehicle* vehicle = vehicleRegistry.searchVehicle(vehicleId);
+    if (vehicle == nullptr) {
+        std::cout << "Error: Vehicle not found!\n";
+        return;
+    }
+
+    // Select destination
+    InteractivePaginatedTable destTable("SELECT DESTINATION", "Name", "Connections");
+    const Node* nodes = cityNetwork.getNodes();
+
+    for (int i = 0; i < cityNetwork.getMaxNodes(); i++) {
+        if (nodes[i].active) {
+            int connCount = 0;
+            Edge* edge = nodes[i].adjacencyList;
+            while (edge != nullptr) {
+                connCount++;
+                edge = edge->next;
+            }
+            destTable.addRow(nodes[i].id, nodes[i].name, std::to_string(connCount) + " edges");
+        }
+    }
+
+    int destId = destTable.run();
+    if (destId == -1) {
+        std::cout << "Operation cancelled.\n";
+        return;
+    }
+
+    if (vehicle->currentNodeId == destId) {
+        system("cls");
+        std::cout << "Error: Vehicle is already at destination!\n";
+        return;
+    }
+
+    // Calculate route using Dijkstra
+    PathResult result = dijkstra(cityNetwork, vehicle->currentNodeId, destId, true);
+
+    if (result.found) {
+        // Update vehicle location
+        vehicle->currentNodeId = destId;
+        vehicle->destinationNodeId = destId;
+
+        // Log successful movement
+        vehicleRegistry.logMovement(vehicleId, destId, "success", result.travelTimeMinutes, "");
+
+        displayPath(cityNetwork, result);
+        std::cout << "\n" << CYAN << "Vehicle moved successfully!" << RESET << "\n";
+        std::cout << "New location: [" << destId << "] " << cityNetwork.getNodeName(destId) << "\n";
+    } else {
+        // Log failed movement
+        vehicleRegistry.logMovement(vehicleId, destId, "failed", 0.0, "No path found");
+
+        displayPath(cityNetwork, result);
+        std::cout << "\n" << "Movement failed: No path found!\n";
+    }
+}
+
+void showMovementHistory() {
+    vehicleRegistry.showMovementHistory();
 }
 
 // ===== EXIT =====
@@ -583,28 +886,31 @@ int main() {
     visualizationMenu->addItem(1, MenuItem("Show Adjacency List", showAdjacencyList));
     visualizationMenu->addItem(2, MenuItem("Show Adjacency Matrix", showAdjacencyMatrix));
 
-    // 3. Queries and Algorithms submenu
-    auto algorithmsMenu = std::make_shared<Menu>("Queries and algorithms");
-    algorithmsMenu->addItem(1, MenuItem("Find Shortest Path (Dijkstra)", findShortestPath));
-    algorithmsMenu->addItem(2, MenuItem("Breadth-First Search (BFS)", breadthFirstSearch));
-    algorithmsMenu->addItem(3, MenuItem("Depth-First Search (DFS)", depthFirstSearch));
+    // 3. Queries and Algorithms submenu (kept for manual testing)
+    auto algorithmsMenu = std::make_shared<Menu>("Network Analysis (Manual)");
+    algorithmsMenu->addItem(1, MenuItem("Find Shortest Path", findShortestPath));
+    algorithmsMenu->addItem(2, MenuItem("Breadth-First Search", breadthFirstSearch));
+    algorithmsMenu->addItem(3, MenuItem("Depth-First Search", depthFirstSearch));
 
     // 4. Vehicle Management submenu
     auto vehicleMenu = std::make_shared<Menu>("Vehicle Management");
     vehicleMenu->addItem(1, MenuItem("Load Vehicles", loadVehicles));
     vehicleMenu->addItem(2, MenuItem("Save Vehicles", saveVehicles));
     vehicleMenu->addItem(3, MenuItem("Add Vehicle", addVehicle));
-    vehicleMenu->addItem(4, MenuItem("Search Vehicle", searchVehicle));
-    vehicleMenu->addItem(5, MenuItem("Remove Vehicle", removeVehicle));
-    vehicleMenu->addItem(6, MenuItem("Show All Vehicles", showAllVehicles));
-    vehicleMenu->addItem(7, MenuItem("Show Hash Info", showHashInfo));
+    vehicleMenu->addItem(4, MenuItem("Move Vehicle (Uses Dijkstra)", moveVehicle));
+    vehicleMenu->addItem(5, MenuItem("Search Vehicle", searchVehicle));
+    vehicleMenu->addItem(6, MenuItem("Remove Vehicle", removeVehicle));
+    vehicleMenu->addItem(7, MenuItem("Show All Vehicles", showAllVehicles));
+    vehicleMenu->addItem(8, MenuItem("Show Movement History", showMovementHistory));
+    vehicleMenu->addItem(9, MenuItem("Show Hash Info", showHashInfo));
+    vehicleMenu->addItem(10, MenuItem("Generate Vehicle Seed File", generateVehicleSeedFile));
 
     // Main menu
     Menu mainMenu("Main menu");
     mainMenu.addItem(1, MenuItem("Road Network Management", roadNetworkMenu));
     mainMenu.addItem(2, MenuItem("Network Visualization", visualizationMenu));
-    mainMenu.addItem(3, MenuItem("Queries and Algorithms", algorithmsMenu));
-    mainMenu.addItem(4, MenuItem("Vehicle Management", vehicleMenu));
+    mainMenu.addItem(3, MenuItem("Vehicle Management", vehicleMenu));
+    mainMenu.addItem(4, MenuItem("Network Analysis (Manual)", algorithmsMenu));
     mainMenu.addItem(5, MenuItem("Exit", exitAction));
 
     mainMenu.run();

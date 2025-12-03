@@ -8,6 +8,9 @@ add_executable(menu_app
     main.cpp
     src/Graph.cpp
     src/HashTable.cpp
+    src/Dijkstra.cpp
+    src/BFS.cpp
+    src/DFS.cpp
 )
 
 target_include_directories(menu_app PRIVATE

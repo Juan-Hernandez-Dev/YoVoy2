@@ -59,8 +59,8 @@ public:
     // Getters
     int getNodeCount() const { return nodeCount; }
     int getNextId() const { return nextId; }
-    bool nodeExists(int id);
-    std::string getNodeName(int id);
+    bool nodeExists(int id) const;
+    std::string getNodeName(int id) const;
     std::string getCurrentFile() const { return currentFile; }
     const Node* getNodes() const { return nodes; }
     int getMaxNodes() const { return MAX_NODES; }
