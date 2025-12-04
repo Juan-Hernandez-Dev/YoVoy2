@@ -27,4 +27,3 @@ for /r build %%i in (*.exe) do (
 )
 
 :done
-pause

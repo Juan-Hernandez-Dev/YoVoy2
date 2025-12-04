@@ -84,12 +84,12 @@ clean: CMakeFiles/menu_app.dir/clean
 CMakeFiles/menu_app.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\menu_app.dir\build.make CMakeFiles/menu_app.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\menu_app.dir\build.make CMakeFiles/menu_app.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\Users\juanh\Dev\Projects\YoVoy2\build\CMakeFiles --progress-num=1,2,3,4 "Built target menu_app"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\Users\juanh\Dev\Projects\YoVoy2\build\CMakeFiles --progress-num=1,2,3,4,5,6,7 "Built target menu_app"
 .PHONY : CMakeFiles/menu_app.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/menu_app.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\juanh\Dev\Projects\YoVoy2\build\CMakeFiles 4
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\juanh\Dev\Projects\YoVoy2\build\CMakeFiles 7
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 CMakeFiles/menu_app.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\juanh\Dev\Projects\YoVoy2\build\CMakeFiles 0
 .PHONY : CMakeFiles/menu_app.dir/rule
@@ -101,7 +101,7 @@ menu_app: CMakeFiles/menu_app.dir/rule
 # codegen rule for target.
 CMakeFiles/menu_app.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\menu_app.dir\build.make CMakeFiles/menu_app.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\Users\juanh\Dev\Projects\YoVoy2\build\CMakeFiles --progress-num=1,2,3,4 "Finished codegen for target menu_app"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\Users\juanh\Dev\Projects\YoVoy2\build\CMakeFiles --progress-num=1,2,3,4,5,6,7 "Finished codegen for target menu_app"
 .PHONY : CMakeFiles/menu_app.dir/codegen
 
 # clean rule for target.

@@ -121,17 +121,19 @@ public:
 // ===== ROAD NETWORK MANAGEMENT =====
 void loadNetwork() {
     std::cout << BOLD << "Load network" << RESET << "\n";
-    std::string filename = getValidString("Enter filename (without extension): ");
 
-    std::string sanitized = sanitizeFilename(filename);
-    if (sanitized.empty()) {
-        std::cout << "Error: Invalid filename!\n";
-        return;
-    }
+    auto filename = getStringInput("Enter filename (without extension): ");
+    if (!withInput(filename, [](const std::string& name) {
+        std::string sanitized = sanitizeFilename(name);
+        if (sanitized.empty()) {
+            std::cout << "Error: Invalid filename!\n";
+            return;
+        }
 
-    std::string fullPath = getDataPath(sanitized);
-    std::cout << "Loading from: " << fullPath << "\n\n";
-    cityNetwork.loadFromFile(fullPath);
+        std::string fullPath = getDataPath(sanitized);
+        std::cout << "Loading from: " << fullPath << "\n\n";
+        cityNetwork.loadFromFile(fullPath);
+    })) return;
 }
 
 void saveNetwork() {
@@ -142,23 +144,27 @@ void saveNetwork() {
         return;
     }
 
-    std::string filename = getValidString("Enter filename (without extension): ");
+    auto filename = getStringInput("Enter filename (without extension): ");
+    if (!withInput(filename, [](const std::string& name) {
+        std::string sanitized = sanitizeFilename(name);
+        if (sanitized.empty()) {
+            std::cout << "Error: Invalid filename!\n";
+            return;
+        }
 
-    std::string sanitized = sanitizeFilename(filename);
-    if (sanitized.empty()) {
-        std::cout << "Error: Invalid filename!\n";
-        return;
-    }
-
-    std::string fullPath = getDataPath(sanitized);
-    std::cout << "Saving to: " << fullPath << "\n\n";
-    cityNetwork.saveToFile(fullPath);
+        std::string fullPath = getDataPath(sanitized);
+        std::cout << "Saving to: " << fullPath << "\n\n";
+        cityNetwork.saveToFile(fullPath);
+    })) return;
 }
 
 void addNode() {
     std::cout << BOLD << "Add node" << RESET << "\n";
-    std::string name = getValidString("Enter node name: ");
-    cityNetwork.addNodeAuto(name);
+
+    auto name = getStringInput("Enter node name: ");
+    if (!withInput(name, [](const std::string& nodeName) {
+        cityNetwork.addNodeAuto(nodeName);
+    })) return;
 }
 
 void addEdge() {
@@ -316,23 +322,27 @@ void addEdge() {
               << std::setw(10) << "?" << "\n";
     std::cout << RESET << "\n";
 
-    double weight = getValidDouble("Enter weight (distance/time): ");
-
-    // Add edges based on direction choice (no extra screen, addEdge prints confirmation)
-    if (directionChoice == 0) { // Bidirectional
-        cityNetwork.addEdge(sourceId, destId, weight);
-        cityNetwork.addEdge(destId, sourceId, weight);
-    } else if (directionChoice == 1) { // Directional
-        cityNetwork.addEdge(sourceId, destId, weight);
-    } else if (directionChoice == 2) { // Counter-directional
-        cityNetwork.addEdge(destId, sourceId, weight);
-    }
+    auto weight = getDoubleInput("Enter weight (distance/time): ");
+    if (!withInput(weight, [&](double w) {
+        // Add edges based on direction choice
+        if (directionChoice == 0) { // Bidirectional
+            cityNetwork.addEdge(sourceId, destId, w);
+            cityNetwork.addEdge(destId, sourceId, w);
+        } else if (directionChoice == 1) { // Directional
+            cityNetwork.addEdge(sourceId, destId, w);
+        } else if (directionChoice == 2) { // Counter-directional
+            cityNetwork.addEdge(destId, sourceId, w);
+        }
+    })) return;
 }
 
 void removeNode() {
     std::cout << BOLD << "Remove node" << RESET << "\n";
-    int id = getValidInt("Enter node ID to remove: ");
-    cityNetwork.removeNode(id);
+
+    auto id = getIntInput("Enter node ID to remove: ");
+    if (!withInput(id, [](int nodeId) {
+        cityNetwork.removeNode(nodeId);
+    })) return;
 }
 
 void removeEdge() {
@@ -417,45 +427,47 @@ void removeEdge() {
 
 void generateSeedFile() {
     std::cout << BOLD << "Generate seed file" << RESET << "\n";
-    std::string filename = getValidString("Enter seed filename (without extension): ");
 
-    std::string sanitized = sanitizeFilename(filename);
-    if (sanitized.empty()) {
-        std::cout << "Error: Invalid filename!\n";
-        return;
-    }
+    auto filename = getStringInput("Enter seed filename (without extension): ");
+    if (!withInput(filename, [](const std::string& name) {
+        std::string sanitized = sanitizeFilename(name);
+        if (sanitized.empty()) {
+            std::cout << "Error: Invalid filename!\n";
+            return;
+        }
 
-    std::string fullPath = getSeedPath(sanitized);
-    std::cout << "Generating seed file: " << fullPath << "\n\n";
+        std::string fullPath = getSeedPath(sanitized);
+        std::cout << "Generating seed file: " << fullPath << "\n\n";
 
-    std::ofstream file(fullPath);
-    if (!file.is_open()) {
-        std::cout << "Error: Could not create seed file!\n";
-        return;
-    }
+        std::ofstream file(fullPath);
+        if (!file.is_open()) {
+            std::cout << "Error: Could not create seed file!\n";
+            return;
+        }
 
-    file << "# SAMPLE NETWORK - Aguascalientes City\n";
-    file << "# NODES\n";
-    file << "N;0;UAA\n";
-    file << "N;1;Plaza_Patria\n";
-    file << "N;2;Centro_Historico\n";
-    file << "N;3;Glorieta_Norte\n";
-    file << "N;4;Estadio_Victoria\n";
-    file << "N;5;Expo_Plaza\n";
-    file << "\n# EDGES (source;destination;weight)\n";
-    file << "E;0;1;3.5\n";
-    file << "E;1;2;2.8\n";
-    file << "E;0;2;6.2\n";
-    file << "E;2;3;4.1\n";
-    file << "E;1;3;5.0\n";
-    file << "E;3;4;3.2\n";
-    file << "E;4;0;7.5\n";
-    file << "E;1;5;2.1\n";
-    file << "E;5;3;3.9\n";
+        file << "# SAMPLE NETWORK - Aguascalientes City\n";
+        file << "# NODES\n";
+        file << "N;0;UAA\n";
+        file << "N;1;Plaza_Patria\n";
+        file << "N;2;Centro_Historico\n";
+        file << "N;3;Glorieta_Norte\n";
+        file << "N;4;Estadio_Victoria\n";
+        file << "N;5;Expo_Plaza\n";
+        file << "\n# EDGES (source;destination;weight)\n";
+        file << "E;0;1;3.5\n";
+        file << "E;1;2;2.8\n";
+        file << "E;0;2;6.2\n";
+        file << "E;2;3;4.1\n";
+        file << "E;1;3;5.0\n";
+        file << "E;3;4;3.2\n";
+        file << "E;4;0;7.5\n";
+        file << "E;1;5;2.1\n";
+        file << "E;5;3;3.9\n";
 
-    file.close();
-    std::cout << "Seed file generated successfully!\n";
-    std::cout << "You can now load it using 'Load Network' option.\n";
+        file.close();
+        std::cout << "Seed file generated successfully!\n";
+        std::cout << "You can now load it using 'Load Network' option.\n";
+    })) return;
 }
 
 void generateVehicleSeedFile() {
@@ -566,7 +578,6 @@ void breadthFirstSearch() {
     // Select starting node
     InteractivePaginatedTable startTable("SELECT START NODE", "Name", "Connections");
     const Node* nodes = cityNetwork.getNodes();
-
     for (int i = 0; i < cityNetwork.getMaxNodes(); i++) {
         if (nodes[i].active) {
             int connCount = 0;
@@ -630,6 +641,11 @@ void loadVehicles() {
     std::cout << BOLD << "Load vehicles" << RESET << "\n";
     std::string filename = getValidString("Enter filename (without extension): ");
 
+    if (filename.empty()) {
+        std::cout << "Operation cancelled.\n";
+        return;
+    }
+
     std::string sanitized = sanitizeFilename(filename);
     if (sanitized.empty()) {
         std::cout << "Error: Invalid filename!\n";
@@ -651,6 +667,11 @@ void saveVehicles() {
 
     std::string filename = getValidString("Enter filename (without extension): ");
 
+    if (filename.empty()) {
+        std::cout << "Operation cancelled.\n";
+        return;
+    }
+
     std::string sanitized = sanitizeFilename(filename);
     if (sanitized.empty()) {
         std::cout << "Error: Invalid filename!\n";
@@ -671,6 +692,11 @@ void addVehicle() {
     }
 
     std::string plate = getValidString("Enter vehicle plate: ");
+
+    if (plate.empty()) {
+        std::cout << "Operation cancelled.\n";
+        return;
+    }
 
     // Vehicle type selector with arrows
     int typeChoice = 0;
@@ -744,6 +770,11 @@ void searchVehicle() {
     std::cout << BOLD << "Search vehicle" << RESET << "\n";
     int id = getValidInt("Enter vehicle ID to search: ");
 
+    if (id == -999999) {
+        std::cout << "Operation cancelled.\n";
+        return;
+    }
+
     Vehicle* vehicle = vehicleRegistry.searchVehicle(id);
     if (vehicle != nullptr) {
         std::cout << "\nVehicle found!\n";
@@ -760,6 +791,12 @@ void searchVehicle() {
 void removeVehicle() {
     std::cout << BOLD << "Remove vehicle" << RESET << "\n";
     int id = getValidInt("Enter vehicle ID to remove: ");
+
+    if (id == -999999) {
+        std::cout << "Operation cancelled.\n";
+        return;
+    }
+
     vehicleRegistry.removeVehicle(id);
 }
 
@@ -872,7 +909,7 @@ void exitAction() {
 
 int main() {
     // 1. Road Network Management submenu
-    auto roadNetworkMenu = std::make_shared<Menu>("Road Network Management");
+    auto roadNetworkMenu = std::make_shared<Menu>("Network Management");
     roadNetworkMenu->addItem(1, MenuItem("Load Network", loadNetwork));
     roadNetworkMenu->addItem(2, MenuItem("Save Network", saveNetwork));
     roadNetworkMenu->addItem(3, MenuItem("Add Node", addNode));
@@ -881,16 +918,16 @@ int main() {
     roadNetworkMenu->addItem(6, MenuItem("Remove Edge", removeEdge));
     roadNetworkMenu->addItem(7, MenuItem("Generate Seed File", generateSeedFile));
 
-    // 2. Network Visualization submenu
-    auto visualizationMenu = std::make_shared<Menu>("Network Visualization");
-    visualizationMenu->addItem(1, MenuItem("Show Adjacency List", showAdjacencyList));
-    visualizationMenu->addItem(2, MenuItem("Show Adjacency Matrix", showAdjacencyMatrix));
-
-    // 3. Queries and Algorithms submenu (kept for manual testing)
+    // 2. Queries and Algorithms submenu (kept for manual testing)
     auto algorithmsMenu = std::make_shared<Menu>("Network Analysis (Manual)");
     algorithmsMenu->addItem(1, MenuItem("Find Shortest Path", findShortestPath));
     algorithmsMenu->addItem(2, MenuItem("Breadth-First Search", breadthFirstSearch));
     algorithmsMenu->addItem(3, MenuItem("Depth-First Search", depthFirstSearch));
+
+    // 3. Network Visualization submenu
+    auto visualizationMenu = std::make_shared<Menu>("Network Visualization");
+    visualizationMenu->addItem(1, MenuItem("Show Adjacency List", showAdjacencyList));
+    visualizationMenu->addItem(2, MenuItem("Show Adjacency Matrix", showAdjacencyMatrix));
 
     // 4. Vehicle Management submenu
     auto vehicleMenu = std::make_shared<Menu>("Vehicle Management");
@@ -907,9 +944,9 @@ int main() {
 
     // Main menu
     Menu mainMenu("Main menu");
-    mainMenu.addItem(1, MenuItem("Road Network Management", roadNetworkMenu));
-    mainMenu.addItem(2, MenuItem("Network Visualization", visualizationMenu));
-    mainMenu.addItem(3, MenuItem("Vehicle Management", vehicleMenu));
+    mainMenu.addItem(1, MenuItem("Network Management", roadNetworkMenu));
+    mainMenu.addItem(2, MenuItem("Vehicle Management", vehicleMenu));
+    mainMenu.addItem(3, MenuItem("Network Visualization", visualizationMenu));
     mainMenu.addItem(4, MenuItem("Network Analysis (Manual)", algorithmsMenu));
     mainMenu.addItem(5, MenuItem("Exit", exitAction));
 

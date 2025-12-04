@@ -199,6 +199,17 @@ CMakeFiles/menu_app.dir/main.cpp.obj: \
  C:/mingw64/include/c++/15.1.0/x86_64-w64-mingw32/bits/basic_file.h \
  C:/mingw64/include/c++/15.1.0/x86_64-w64-mingw32/bits/c++io.h \
  C:/mingw64/include/c++/15.1.0/bits/fstream.tcc \
+ C:/mingw64/include/c++/15.1.0/iomanip \
+ C:/mingw64/include/c++/15.1.0/locale \
+ C:/mingw64/include/c++/15.1.0/bits/locale_facets_nonio.h \
+ C:/mingw64/include/c++/15.1.0/ctime \
+ C:/mingw64/include/c++/15.1.0/x86_64-w64-mingw32/bits/time_members.h \
+ C:/mingw64/include/c++/15.1.0/x86_64-w64-mingw32/bits/messages_members.h \
+ C:/mingw64/include/c++/15.1.0/bits/locale_facets_nonio.tcc \
+ C:/mingw64/include/c++/15.1.0/bits/locale_conv.h \
+ C:/mingw64/include/c++/15.1.0/bits/quoted_string.h \
+ C:/mingw64/include/c++/15.1.0/sstream \
+ C:/mingw64/include/c++/15.1.0/bits/sstream.tcc \
  C:/mingw64/x86_64-w64-mingw32/include/conio.h \
  C:/mingw64/x86_64-w64-mingw32/include/sec_api/conio_s.h \
  C:\Users\juanh\Dev\Projects\YoVoy2\utils/colors.h \
@@ -212,5 +223,10 @@ CMakeFiles/menu_app.dir/main.cpp.obj: \
  C:/mingw64/include/c++/15.1.0/pstl/glue_algorithm_defs.h \
  C:\Users\juanh\Dev\Projects\YoVoy2\utils/inputUtils.h \
  C:/mingw64/include/c++/15.1.0/limits \
+ C:/mingw64/include/c++/15.1.0/optional \
+ C:\Users\juanh\Dev\Projects\YoVoy2\utils/tableUtils.h \
+ C:\Users\juanh\Dev\Projects\YoVoy2\utils/colors.h \
  C:/Users/juanh/Dev/Projects/YoVoy2/src/Graph.h \
- C:/Users/juanh/Dev/Projects/YoVoy2/src/HashTable.h
+ C:/Users/juanh/Dev/Projects/YoVoy2/src/HashTable.h \
+ C:/Users/juanh/Dev/Projects/YoVoy2/src/Algorithms.h \
+ C:/Users/juanh/Dev/Projects/YoVoy2/src/Graph.h

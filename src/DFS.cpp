@@ -1,5 +1,6 @@
 #include "Algorithms.h"
 #include "utils/colors.h"
+#include "utils/keyUtils.h"
 #include <iostream>
 #include <iomanip>
 #include <stack>
@@ -25,7 +26,10 @@ TraversalResult dfs(const Graph& graph, int startId, bool verbose) {
         std::cout << BOLD << "Depth-first search (DFS)" << RESET << "\n";
         std::cout << "Starting from: [" << startId << "] " << graph.getNodeName(startId) << "\n\n";
         std::cout << "DFS explores as far as possible along each branch.\n";
-        std::this_thread::sleep_for(std::chrono::milliseconds(500));
+        if (sleepWithEscCheck(500)) {
+            std::cout << "\nOperation aborted by user.\n";
+            return result;
+        }
     }
 
     int step = 0;
@@ -85,7 +89,11 @@ TraversalResult dfs(const Graph& graph, int startId, bool verbose) {
             }
 
             std::cout << "\nStack size: " << stack.size() << "\n";
-            std::this_thread::sleep_for(std::chrono::milliseconds(500));
+            if (sleepWithEscCheck(500)) {
+                std::cout << "\nOperation aborted by user.\n";
+                result.completed = false;
+                return result;
+            }
         }
 
         // Add neighbors to stack (in reverse order for consistent traversal)

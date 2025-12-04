@@ -29,7 +29,7 @@ private:
 
     void display() {
         system("cls");
-        std::cout << "=== " << title << " ===\n\n";
+        std::cout << BOLD << title << RESET << "\n";
 
         if (rows.empty()) {
             std::cout << "No data available.\n";

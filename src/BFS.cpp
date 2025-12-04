@@ -1,5 +1,6 @@
 #include "Algorithms.h"
 #include "utils/colors.h"
+#include "utils/keyUtils.h"
 #include <iostream>
 #include <iomanip>
 #include <queue>
@@ -26,7 +27,10 @@ TraversalResult bfs(const Graph& graph, int startId, bool verbose) {
         std::cout << BOLD << "Breadth-first search (BFS)" << RESET << "\n";
         std::cout << "Starting from: [" << startId << "] " << graph.getNodeName(startId) << "\n\n";
         std::cout << "BFS explores nodes level by level.\n";
-        std::this_thread::sleep_for(std::chrono::milliseconds(500));
+        if (sleepWithEscCheck(500)) {
+            std::cout << "\nOperation aborted by user.\n";
+            return result;
+        }
     }
 
     int step = 0;
@@ -74,7 +78,11 @@ TraversalResult bfs(const Graph& graph, int startId, bool verbose) {
             }
 
             std::cout << "\nQueue size: " << queue.size() << "\n";
-            std::this_thread::sleep_for(std::chrono::milliseconds(500));
+            if (sleepWithEscCheck(500)) {
+                std::cout << "\nOperation aborted by user.\n";
+                result.completed = false;
+                return result;
+            }
         }
 
         // Find current node index

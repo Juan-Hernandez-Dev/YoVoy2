@@ -287,27 +287,123 @@ void HashTable::showAllVehicles() {
 }
 
 void HashTable::showHashInfo() {
-    std::cout << "\n" << BOLD << "Hash table information" << RESET << "\n";
-    std::cout << "Table Size: " << HASH_SIZE << "\n";
-    std::cout << "Vehicles Stored: " << vehicleCount << "\n";
-    std::cout << "Load Factor: " << std::fixed << std::setprecision(2)
-              << (double)vehicleCount / HASH_SIZE << "\n";
-    std::cout << "Next Available ID: " << nextId << "\n";
+    std::cout << "\n" << BOLD << "Hash table statistics" << RESET << "\n";
 
-    if (!currentFile.empty()) {
-        std::cout << "Current File: " << currentFile << "\n";
-    } else {
-        std::cout << "Current File: None (not loaded from file)\n";
-    }
-
-    // Show collision statistics
+    // Calculate statistics
     int usedSlots = 0;
     for (int i = 0; i < HASH_SIZE; i++) {
         if (table[i].active || table[i].id != -1) {
             usedSlots++;
         }
     }
-    std::cout << "Used Slots: " << usedSlots << "\n";
+    double loadFactor = (double)vehicleCount / HASH_SIZE;
+    int availableCapacity = HASH_SIZE - vehicleCount;
+    double usagePercent = (double)vehicleCount / HASH_SIZE * 100;
+    int collisions = usedSlots - vehicleCount;
+
+    // Main statistics table
+    std::cout << std::setw(25) << "Metric" << " | "
+              << std::setw(15) << "Value" << " | "
+              << std::setw(30) << "Status" << "\n";
+    std::cout << std::string(75, '-') << "\n";
+
+    // Vehicles stored
+    std::cout << std::setw(25) << "Vehicles registered" << " | "
+              << std::setw(15) << vehicleCount << " | ";
+    if (vehicleCount == 0) {
+        std::cout << std::setw(30) << "Empty registry";
+    } else if (vehicleCount < 50) {
+        std::cout << std::setw(30) << "Light usage";
+    } else if (vehicleCount < 70) {
+        std::cout << std::setw(30) << "Moderate usage";
+    } else {
+        std::cout << std::setw(30) << "Heavy usage";
+    }
+    std::cout << "\n";
+
+    // Storage capacity
+    std::cout << std::setw(25) << "Storage capacity" << " | "
+              << std::setw(15) << HASH_SIZE << " | "
+              << std::setw(30) << "Maximum slots" << "\n";
+
+    // Available space
+    std::cout << std::setw(25) << "Available space" << " | "
+              << std::setw(15) << availableCapacity << " | "
+              << std::setw(30) << "Slots remaining" << "\n";
+
+    // Usage percentage
+    std::cout << std::setw(25) << "Usage percentage" << " | "
+              << std::setw(14) << std::fixed << std::setprecision(1) << usagePercent << "%" << " | ";
+    if (usagePercent < 50) {
+        std::cout << std::setw(30) << "Plenty of room";
+    } else if (usagePercent < 70) {
+        std::cout << std::setw(30) << "Getting busy";
+    } else if (usagePercent < 90) {
+        std::cout << std::setw(30) << "Consider archiving";
+    } else {
+        std::cout << std::setw(30) << "Nearly full";
+    }
+    std::cout << "\n";
+
+    // Load factor
+    std::cout << std::setw(25) << "Load factor" << " | "
+              << std::setw(15) << std::fixed << std::setprecision(3) << loadFactor << " | ";
+    if (loadFactor < 0.5) {
+        std::cout << GREEN << std::setw(30) << "Excellent performance" << RESET;
+    } else if (loadFactor < 0.7) {
+        std::cout << GREEN << std::setw(30) << "Good performance" << RESET;
+    } else if (loadFactor < 0.9) {
+        std::cout << YELLOW << std::setw(30) << "Fair performance" << RESET;
+    } else {
+        std::cout << YELLOW << std::setw(30) << "Performance degrading" << RESET;
+    }
+    std::cout << "\n";
+
+    // Occupied slots
+    std::cout << std::setw(25) << "Occupied slots" << " | "
+              << std::setw(15) << (std::to_string(usedSlots) + " / " + std::to_string(HASH_SIZE)) << " | "
+              << std::setw(30) << "Actual positions used" << "\n";
+
+    // Collisions
+    std::cout << std::setw(25) << "Collisions handled" << " | "
+              << std::setw(15) << collisions << " | ";
+    if (collisions == 0) {
+        std::cout << GREEN << std::setw(30) << "Perfect hashing" << RESET;
+    } else if (collisions < 5) {
+        std::cout << std::setw(30) << "Minimal collisions";
+    } else if (collisions < 10) {
+        std::cout << std::setw(30) << "Some collisions";
+    } else {
+        std::cout << YELLOW << std::setw(30) << "Many collisions" << RESET;
+    }
+    std::cout << "\n";
+
+    // Next ID
+    std::cout << std::setw(25) << "Next vehicle ID" << " | "
+              << std::setw(15) << nextId << " | "
+              << std::setw(30) << "Auto-increment" << "\n";
+
+    // Data source
+    std::cout << std::setw(25) << "Data source" << " | "
+              << std::setw(15);
+    if (!currentFile.empty()) {
+        // Extract just the filename
+        size_t lastSlash = currentFile.find_last_of("/\\");
+        std::string filename = (lastSlash != std::string::npos)
+            ? currentFile.substr(lastSlash + 1)
+            : currentFile;
+        std::cout << filename;
+    } else {
+        std::cout << "Not saved";
+    }
+    std::cout << " | ";
+    if (!currentFile.empty()) {
+        std::cout << std::setw(30) << "Loaded from file";
+    } else {
+        std::cout << YELLOW << std::setw(30) << "Unsaved changes" << RESET;
+    }
+    std::cout << "\n";
+
     std::cout << "\n";
 }
 

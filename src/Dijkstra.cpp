@@ -1,5 +1,6 @@
 #include "Algorithms.h"
 #include "utils/colors.h"
+#include "utils/keyUtils.h"
 #include <iostream>
 #include <iomanip>
 #include <limits>
@@ -40,7 +41,10 @@ PathResult dijkstra(const Graph& graph, int sourceId, int destId, bool verbose) 
         std::cout << "Source: [" << sourceId << "] " << graph.getNodeName(sourceId) << "\n";
         std::cout << "Destination: [" << destId << "] " << graph.getNodeName(destId) << "\n\n";
         std::cout << "Initializing algorithm...\n";
-        std::this_thread::sleep_for(std::chrono::milliseconds(500));
+        if (sleepWithEscCheck(500)) {
+            std::cout << "\nOperation aborted by user.\n";
+            return result;
+        }
     }
 
     int step = 0;
@@ -99,7 +103,10 @@ PathResult dijkstra(const Graph& graph, int sourceId, int destId, bool verbose) 
                 }
             }
 
-            std::this_thread::sleep_for(std::chrono::milliseconds(500));
+            if (sleepWithEscCheck(500)) {
+                std::cout << "\nOperation aborted by user.\n";
+                return result;
+            }
         }
 
         // Update distances

@@ -116,11 +116,59 @@ CMakeFiles/menu_app.dir/src/HashTable.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/menu_app.dir/src/HashTable.cpp.s"
 	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\juanh\Dev\Projects\YoVoy2\src\HashTable.cpp -o CMakeFiles\menu_app.dir\src\HashTable.cpp.s
 
+CMakeFiles/menu_app.dir/src/Dijkstra.cpp.obj: CMakeFiles/menu_app.dir/flags.make
+CMakeFiles/menu_app.dir/src/Dijkstra.cpp.obj: CMakeFiles/menu_app.dir/includes_CXX.rsp
+CMakeFiles/menu_app.dir/src/Dijkstra.cpp.obj: C:/Users/juanh/Dev/Projects/YoVoy2/src/Dijkstra.cpp
+CMakeFiles/menu_app.dir/src/Dijkstra.cpp.obj: CMakeFiles/menu_app.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\juanh\Dev\Projects\YoVoy2\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/menu_app.dir/src/Dijkstra.cpp.obj"
+	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/menu_app.dir/src/Dijkstra.cpp.obj -MF CMakeFiles\menu_app.dir\src\Dijkstra.cpp.obj.d -o CMakeFiles\menu_app.dir\src\Dijkstra.cpp.obj -c C:\Users\juanh\Dev\Projects\YoVoy2\src\Dijkstra.cpp
+
+CMakeFiles/menu_app.dir/src/Dijkstra.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/menu_app.dir/src/Dijkstra.cpp.i"
+	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\juanh\Dev\Projects\YoVoy2\src\Dijkstra.cpp > CMakeFiles\menu_app.dir\src\Dijkstra.cpp.i
+
+CMakeFiles/menu_app.dir/src/Dijkstra.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/menu_app.dir/src/Dijkstra.cpp.s"
+	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\juanh\Dev\Projects\YoVoy2\src\Dijkstra.cpp -o CMakeFiles\menu_app.dir\src\Dijkstra.cpp.s
+
+CMakeFiles/menu_app.dir/src/BFS.cpp.obj: CMakeFiles/menu_app.dir/flags.make
+CMakeFiles/menu_app.dir/src/BFS.cpp.obj: CMakeFiles/menu_app.dir/includes_CXX.rsp
+CMakeFiles/menu_app.dir/src/BFS.cpp.obj: C:/Users/juanh/Dev/Projects/YoVoy2/src/BFS.cpp
+CMakeFiles/menu_app.dir/src/BFS.cpp.obj: CMakeFiles/menu_app.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\juanh\Dev\Projects\YoVoy2\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/menu_app.dir/src/BFS.cpp.obj"
+	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/menu_app.dir/src/BFS.cpp.obj -MF CMakeFiles\menu_app.dir\src\BFS.cpp.obj.d -o CMakeFiles\menu_app.dir\src\BFS.cpp.obj -c C:\Users\juanh\Dev\Projects\YoVoy2\src\BFS.cpp
+
+CMakeFiles/menu_app.dir/src/BFS.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/menu_app.dir/src/BFS.cpp.i"
+	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\juanh\Dev\Projects\YoVoy2\src\BFS.cpp > CMakeFiles\menu_app.dir\src\BFS.cpp.i
+
+CMakeFiles/menu_app.dir/src/BFS.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/menu_app.dir/src/BFS.cpp.s"
+	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\juanh\Dev\Projects\YoVoy2\src\BFS.cpp -o CMakeFiles\menu_app.dir\src\BFS.cpp.s
+
+CMakeFiles/menu_app.dir/src/DFS.cpp.obj: CMakeFiles/menu_app.dir/flags.make
+CMakeFiles/menu_app.dir/src/DFS.cpp.obj: CMakeFiles/menu_app.dir/includes_CXX.rsp
+CMakeFiles/menu_app.dir/src/DFS.cpp.obj: C:/Users/juanh/Dev/Projects/YoVoy2/src/DFS.cpp
+CMakeFiles/menu_app.dir/src/DFS.cpp.obj: CMakeFiles/menu_app.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\juanh\Dev\Projects\YoVoy2\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/menu_app.dir/src/DFS.cpp.obj"
+	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/menu_app.dir/src/DFS.cpp.obj -MF CMakeFiles\menu_app.dir\src\DFS.cpp.obj.d -o CMakeFiles\menu_app.dir\src\DFS.cpp.obj -c C:\Users\juanh\Dev\Projects\YoVoy2\src\DFS.cpp
+
+CMakeFiles/menu_app.dir/src/DFS.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/menu_app.dir/src/DFS.cpp.i"
+	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\juanh\Dev\Projects\YoVoy2\src\DFS.cpp > CMakeFiles\menu_app.dir\src\DFS.cpp.i
+
+CMakeFiles/menu_app.dir/src/DFS.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/menu_app.dir/src/DFS.cpp.s"
+	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\juanh\Dev\Projects\YoVoy2\src\DFS.cpp -o CMakeFiles\menu_app.dir\src\DFS.cpp.s
+
 # Object files for target menu_app
 menu_app_OBJECTS = \
 "CMakeFiles/menu_app.dir/main.cpp.obj" \
 "CMakeFiles/menu_app.dir/src/Graph.cpp.obj" \
-"CMakeFiles/menu_app.dir/src/HashTable.cpp.obj"
+"CMakeFiles/menu_app.dir/src/HashTable.cpp.obj" \
+"CMakeFiles/menu_app.dir/src/Dijkstra.cpp.obj" \
+"CMakeFiles/menu_app.dir/src/BFS.cpp.obj" \
+"CMakeFiles/menu_app.dir/src/DFS.cpp.obj"
 
 # External object files for target menu_app
 menu_app_EXTERNAL_OBJECTS =
@@ -128,11 +176,14 @@ menu_app_EXTERNAL_OBJECTS =
 menu_app.exe: CMakeFiles/menu_app.dir/main.cpp.obj
 menu_app.exe: CMakeFiles/menu_app.dir/src/Graph.cpp.obj
 menu_app.exe: CMakeFiles/menu_app.dir/src/HashTable.cpp.obj
+menu_app.exe: CMakeFiles/menu_app.dir/src/Dijkstra.cpp.obj
+menu_app.exe: CMakeFiles/menu_app.dir/src/BFS.cpp.obj
+menu_app.exe: CMakeFiles/menu_app.dir/src/DFS.cpp.obj
 menu_app.exe: CMakeFiles/menu_app.dir/build.make
 menu_app.exe: CMakeFiles/menu_app.dir/linkLibs.rsp
 menu_app.exe: CMakeFiles/menu_app.dir/objects1.rsp
 menu_app.exe: CMakeFiles/menu_app.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:\Users\juanh\Dev\Projects\YoVoy2\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable menu_app.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:\Users\juanh\Dev\Projects\YoVoy2\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking CXX executable menu_app.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\menu_app.dir\link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

@@ -152,6 +152,78 @@ main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\menu_app.dir\build.make CMakeFiles/menu_app.dir/main.cpp.s
 .PHONY : main.cpp.s
 
+src/BFS.obj: src/BFS.cpp.obj
+.PHONY : src/BFS.obj
+
+# target to build an object file
+src/BFS.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\menu_app.dir\build.make CMakeFiles/menu_app.dir/src/BFS.cpp.obj
+.PHONY : src/BFS.cpp.obj
+
+src/BFS.i: src/BFS.cpp.i
+.PHONY : src/BFS.i
+
+# target to preprocess a source file
+src/BFS.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\menu_app.dir\build.make CMakeFiles/menu_app.dir/src/BFS.cpp.i
+.PHONY : src/BFS.cpp.i
+
+src/BFS.s: src/BFS.cpp.s
+.PHONY : src/BFS.s
+
+# target to generate assembly for a file
+src/BFS.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\menu_app.dir\build.make CMakeFiles/menu_app.dir/src/BFS.cpp.s
+.PHONY : src/BFS.cpp.s
+
+src/DFS.obj: src/DFS.cpp.obj
+.PHONY : src/DFS.obj
+
+# target to build an object file
+src/DFS.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\menu_app.dir\build.make CMakeFiles/menu_app.dir/src/DFS.cpp.obj
+.PHONY : src/DFS.cpp.obj
+
+src/DFS.i: src/DFS.cpp.i
+.PHONY : src/DFS.i
+
+# target to preprocess a source file
+src/DFS.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\menu_app.dir\build.make CMakeFiles/menu_app.dir/src/DFS.cpp.i
+.PHONY : src/DFS.cpp.i
+
+src/DFS.s: src/DFS.cpp.s
+.PHONY : src/DFS.s
+
+# target to generate assembly for a file
+src/DFS.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\menu_app.dir\build.make CMakeFiles/menu_app.dir/src/DFS.cpp.s
+.PHONY : src/DFS.cpp.s
+
+src/Dijkstra.obj: src/Dijkstra.cpp.obj
+.PHONY : src/Dijkstra.obj
+
+# target to build an object file
+src/Dijkstra.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\menu_app.dir\build.make CMakeFiles/menu_app.dir/src/Dijkstra.cpp.obj
+.PHONY : src/Dijkstra.cpp.obj
+
+src/Dijkstra.i: src/Dijkstra.cpp.i
+.PHONY : src/Dijkstra.i
+
+# target to preprocess a source file
+src/Dijkstra.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\menu_app.dir\build.make CMakeFiles/menu_app.dir/src/Dijkstra.cpp.i
+.PHONY : src/Dijkstra.cpp.i
+
+src/Dijkstra.s: src/Dijkstra.cpp.s
+.PHONY : src/Dijkstra.s
+
+# target to generate assembly for a file
+src/Dijkstra.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\menu_app.dir\build.make CMakeFiles/menu_app.dir/src/Dijkstra.cpp.s
+.PHONY : src/Dijkstra.cpp.s
+
 src/Graph.obj: src/Graph.cpp.obj
 .PHONY : src/Graph.obj
 
@@ -212,6 +284,15 @@ help:
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s
+	@echo ... src/BFS.obj
+	@echo ... src/BFS.i
+	@echo ... src/BFS.s
+	@echo ... src/DFS.obj
+	@echo ... src/DFS.i
+	@echo ... src/DFS.s
+	@echo ... src/Dijkstra.obj
+	@echo ... src/Dijkstra.i
+	@echo ... src/Dijkstra.s
 	@echo ... src/Graph.obj
 	@echo ... src/Graph.i
 	@echo ... src/Graph.s
