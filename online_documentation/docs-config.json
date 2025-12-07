@@ -1,0 +1,22 @@
+[
+  {
+    "titulo": "Visión General",
+    "endpoint": "vision-general",
+    "archivo": "vision-general.md"
+  },
+  {
+    "titulo": "Estructura de Archivos",
+    "endpoint": "estructura-archivos",
+    "archivo": "estructura-archivos.md"
+  },
+  {
+    "titulo": "Flujo de Ejecución",
+    "endpoint": "flujo-ejecucion",
+    "archivo": "flujo-ejecucion.md"
+  },
+  {
+    "titulo": "Manejo de Archivos",
+    "endpoint": "manejo-archivos",
+    "archivo": "manejo-archivos.md"
+  }
+]
