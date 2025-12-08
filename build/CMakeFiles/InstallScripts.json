@@ -1,7 +1,7 @@
 {
 	"InstallScripts" : 
 	[
-		"C:/Users/juanh/Dev/Projects/YoVoy2/build/cmake_install.cmake"
+		"C:/Users/juanh/Dev/Projects/Traffic-network-simulator/build/cmake_install.cmake"
 	],
 	"Parallel" : false
 }
